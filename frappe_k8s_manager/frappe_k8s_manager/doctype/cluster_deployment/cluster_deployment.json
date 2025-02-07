@@ -1,0 +1,56 @@
+{
+    "doctype": "Cluster Deployment",
+    "name": "Cluster Deployment",
+    "module": "Frappe K8s Manager",
+    "custom": 0,
+    "fields": [
+      {
+        "fieldname": "cluster_name",
+        "fieldtype": "Data",
+        "label": "Cluster Name",
+        "reqd": 1
+      },
+      {
+        "fieldname": "namespace",
+        "fieldtype": "Data",
+        "label": "Namespace",
+        "reqd": 1
+      },
+      {
+        "fieldname": "status",
+        "fieldtype": "Select",
+        "label": "Status",
+        "options": "\nPending\nDeploying\nActive\nFailed",
+        "default": "Pending"
+      },
+      {
+        "fieldname": "kubeconfig",
+        "fieldtype": "Text",
+        "label": "Kubeconfig YAML",
+        "reqd": 1
+      },
+      {
+        "fieldname": "created_by",
+        "fieldtype": "Link",
+        "label": "Created By",
+        "options": "User",
+        "default": "Owner",
+        "reqd": 1
+      },
+      {
+        "fieldname": "deployment_logs",
+        "fieldtype": "Text",
+        "label": "Deployment Logs"
+      }
+    ],
+    "permissions": [
+      {
+        "role": "System Manager",
+        "read": 1,
+        "write": 1,
+        "create": 1,
+        "delete": 1
+      }
+    ]
+  }
+  
