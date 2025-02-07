@@ -6,7 +6,7 @@ frappe.pages['dashboard'].on_page_load = function(wrapper) {
     });
 
     frappe.call({
-        method: 'frappe.desk.notifications.get_notification_info_for_user",
+        method: 'frappe.desk.notifications.get_notification_info_for_user',
         callback: function(response) {
             let notifications = response.message.notifications;
             let notification_html = '<ul class="list-group">';

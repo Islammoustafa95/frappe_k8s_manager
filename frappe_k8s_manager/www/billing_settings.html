@@ -12,16 +12,18 @@
 <h3>Change Subscription Plan</h3>
 <p>Select a new plan below:</p>
 <select id="plan-selection" class="form-control">
-    <option value="plan_basic">Basic (1GB Disk, No Extra Apps)</option>
-    <option value="plan_standard">Standard (5GB Disk, HRMS & Payments)</option>
-    <option value="plan_premium">Premium (10GB Disk, Extra Apps & Features)</option>
+    <option value="plan_basic" data-plan-id="basic">Basic (1GB Disk, No Extra Apps)</option>
+    <option value="plan_standard" data-plan-id="standard">Standard (5GB Disk, HRMS & Payments)</option>
+    <option value="plan_premium" data-plan-id="premium">Premium (10GB Disk, Extra Apps & Features)</option>
 </select>
 <button id="change-plan-btn" class="btn btn-success">Change Plan</button>
 
 <h3>Update Payment Method</h3>
+<p>Update your billing details securely via Stripe.</p>
 <button id="update-payment-btn" class="btn btn-primary">Update Payment</button>
 
 <h3>Cancel Subscription</h3>
+<p>Cancelling will immediately revoke access.</p>
 <button id="cancel-subscription-btn" class="btn btn-danger">Cancel Subscription</button>
 
 <h3>Invoice History</h3>
@@ -39,4 +41,74 @@
 </table>
 
 <script src="/assets/frappe_k8s_manager/js/billing_settings.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        frappe.call({
+            method: "frappe_k8s_manager.billing_settings.get_invoice_history",
+            callback: function (r) {
+                let invoices = r.message;
+                let invoiceTable = document.getElementById("invoice-list");
+                invoiceTable.innerHTML = "";
+
+                if (invoices && invoices.length > 0) {
+                    invoices.forEach(inv => {
+                        let row = `<tr>
+                            <td>${inv.date}</td>
+                            <td>${inv.amount}</td>
+                            <td><a href="${inv.url}" target="_blank" class="btn btn-sm btn-info">Download</a></td>
+                        </tr>`;
+                        invoiceTable.innerHTML += row;
+                    });
+                } else {
+                    invoiceTable.innerHTML = "<tr><td colspan='3'>No invoices found.</td></tr>";
+                }
+            }
+        });
+
+        document.getElementById("update-payment-btn").addEventListener("click", function () {
+            frappe.call({
+                method: "frappe_k8s_manager.billing_settings.get_stripe_billing_portal",
+                callback: function (r) {
+                    if (r.message.url) {
+                        window.location.href = r.message.url;
+                    } else {
+                        frappe.msgprint("Failed to retrieve billing portal link.");
+                    }
+                }
+            });
+        });
+
+        document.getElementById("change-plan-btn").addEventListener("click", function () {
+            let selectedPlan = document.getElementById("plan-selection").value;
+            frappe.call({
+                method: "frappe_k8s_manager.billing_settings.change_subscription_plan",
+                args: { plan_id: selectedPlan },
+                callback: function (r) {
+                    if (r.message.success) {
+                        frappe.msgprint("Subscription updated successfully!");
+                        location.reload();
+                    } else {
+                        frappe.msgprint("Error updating subscription.");
+                    }
+                }
+            });
+        });
+
+        document.getElementById("cancel-subscription-btn").addEventListener("click", function () {
+            frappe.confirm("Are you sure you want to cancel your subscription?", function () {
+                frappe.call({
+                    method: "frappe_k8s_manager.billing_settings.cancel_subscription",
+                    callback: function (r) {
+                        if (r.message.success) {
+                            frappe.msgprint("Subscription cancelled.");
+                            location.reload();
+                        } else {
+                            frappe.msgprint("Failed to cancel subscription.");
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}
