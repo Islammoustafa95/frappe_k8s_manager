@@ -1,0 +1,33 @@
+{
+    "doctype": "DocType",
+    "name": "Subscription Plan",
+    "module": "Frappe K8s Manager",
+    "custom": 1,
+    "fields": [
+      {
+        "fieldname": "plan_name",
+        "fieldtype": "Data",
+        "label": "Plan Name",
+        "reqd": 1
+      },
+      {
+        "fieldname": "price",
+        "fieldtype": "Currency",
+        "label": "Price (USD)",
+        "reqd": 1
+      },
+      {
+        "fieldname": "disk_space",
+        "fieldtype": "Int",
+        "label": "Disk Space (GB)",
+        "reqd": 1
+      },
+      {
+        "fieldname": "included_apps",
+        "fieldtype": "Table",
+        "label": "Included Apps",
+        "options": "Subscription App"
+      }
+    ]
+  }
+  

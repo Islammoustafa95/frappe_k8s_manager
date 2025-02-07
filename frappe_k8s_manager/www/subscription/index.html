@@ -1,0 +1,12 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<div class="container">
+    <h2>Select a Subscription Plan</h2>
+    <div id="plans-container"></div>
+
+    <button id="subscribe-button" class="btn btn-primary">Subscribe</button>
+</div>
+
+<script src="/assets/frappe_k8s_manager/js/subscription.js"></script>
+{% endblock %}

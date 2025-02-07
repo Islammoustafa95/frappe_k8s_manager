@@ -1,0 +1,42 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<h2>Billing Settings</h2>
+<p>Manage your subscription and payment details.</p>
+
+<div id="billing-info">
+    <p><strong>Current Plan:</strong> <span id="plan_name">Loading...</span></p>
+    <p><strong>Next Billing Date:</strong> <span id="billing_date">Loading...</span></p>
+</div>
+
+<h3>Change Subscription Plan</h3>
+<p>Select a new plan below:</p>
+<select id="plan-selection" class="form-control">
+    <option value="plan_basic">Basic (1GB Disk, No Extra Apps)</option>
+    <option value="plan_standard">Standard (5GB Disk, HRMS & Payments)</option>
+    <option value="plan_premium">Premium (10GB Disk, Extra Apps & Features)</option>
+</select>
+<button id="change-plan-btn" class="btn btn-success">Change Plan</button>
+
+<h3>Update Payment Method</h3>
+<button id="update-payment-btn" class="btn btn-primary">Update Payment</button>
+
+<h3>Cancel Subscription</h3>
+<button id="cancel-subscription-btn" class="btn btn-danger">Cancel Subscription</button>
+
+<h3>Invoice History</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody id="invoice-list">
+        <tr><td colspan="3">Loading invoices...</td></tr>
+    </tbody>
+</table>
+
+<script src="/assets/frappe_k8s_manager/js/billing_settings.js"></script>
+{% endblock %}

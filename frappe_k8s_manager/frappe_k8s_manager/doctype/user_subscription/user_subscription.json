@@ -1,0 +1,49 @@
+{
+    "doctype": "DocType",
+    "name": "User Subscription",
+    "module": "Frappe K8s Manager",
+    "custom": 1,
+    "fields": [
+      {
+        "fieldname": "user",
+        "fieldtype": "Link",
+        "label": "User",
+        "options": "User",
+        "reqd": 1
+      },
+      {
+        "fieldname": "subscription_plan",
+        "fieldtype": "Link",
+        "label": "Subscription Plan",
+        "options": "Subscription Plan",
+        "reqd": 1
+      },
+      {
+        "fieldname": "status",
+        "fieldtype": "Select",
+        "label": "Status",
+        "options": "Active\nExpired\nCancelled",
+        "default": "Active"
+      },
+      {
+        "fieldname": "payment_status",
+        "fieldtype": "Select",
+        "label": "Payment Status",
+        "options": "Pending\nPaid\nFailed",
+        "default": "Pending"
+      },
+      {
+        "fieldname": "start_date",
+        "fieldtype": "Date",
+        "label": "Start Date",
+        "reqd": 1
+      },
+      {
+        "fieldname": "end_date",
+        "fieldtype": "Date",
+        "label": "End Date",
+        "reqd": 1
+      }
+    ]
+  }
+  
